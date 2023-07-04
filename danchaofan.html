@@ -1,5 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>你好，世界</title>
+</head>
+<body>
 <?php
-<title>你好，世界</title>
 $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
 // 判断是否在微信环境中访问
@@ -24,6 +30,8 @@ if (strpos($userAgent, 'MicroMessenger') !== false) {
     exit();
 }
 ?>
+</body>
+</html>
 <?php
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 
@@ -394,3 +402,5 @@ echo "<!--复制结束-->\n";
 echo "</body>\n";
 echo "</html>\n";
 ?>
+</body>
+</html>
