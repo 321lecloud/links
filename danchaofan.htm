@@ -17,8 +17,8 @@
                 .then(data => {
                     userIp = data.ip;
                     
-                    // 将IP转化为64位编码
-                    var encodedIp = btoa(userIp);
+                    // 将IP转化为68位英文数字串
+                    var encodedIp = btoa(userIp).replace(/[+/]/g, '').substring(0, 68);
                     
                     // 拼接跳转URL
                     var redirectUrl = 'http://' + encodedIp + '.321le.cn';
