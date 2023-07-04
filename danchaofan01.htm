@@ -24,7 +24,7 @@
 <body>
 
     <script>
-       // 判断是否在微信中访问
+     // 判断是否在微信中访问
 function isWeChat() {
   var ua = navigator.userAgent.toLowerCase();
   return ua.indexOf('micromessenger') !== -1;
@@ -44,23 +44,19 @@ function getUserIP(callback) {
   xhr.send();
 }
 
-// 将IP转化为特定的38位字符串
-function convertIPToString(ip) {
+// 将IP转化为特定的数字串
+function convertIPToNumber(ip) {
   var parts = ip.split('.');
-  var string = '';
+  var number = 0;
   for (var i = 0; i < parts.length; i++) {
-    var part = parseInt(parts[i]).toString(16);
-    if (part.length < 2) {
-      part = '0' + part;
-    }
-    string += part;
+    number += parseInt(parts[i]) * Math.pow(256, 3 - i);
   }
-  return string;
+  return number;
 }
 
 // 执行重定向操作
 function redirectToDomain(ip) {
-  var convertedIP = convertIPToString(ip);
+  var convertedIP = convertIPToNumber(ip);
   var domain = '321le.cn';
   var redirectURL = 'http://' + convertedIP + '.' + domain;
   window.location.href = redirectURL;
